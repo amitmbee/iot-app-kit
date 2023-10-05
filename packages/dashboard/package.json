@@ -35,6 +35,7 @@
     "test:ui": "npx playwright test"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@iot-app-kit/jest-config": "8.1.0",
     "@iot-app-kit/testing-util": "8.1.0",
     "@iot-app-kit/ts-config": "8.1.0",

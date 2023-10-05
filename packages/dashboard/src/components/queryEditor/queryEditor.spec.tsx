@@ -33,9 +33,9 @@ import {
   SOUTH_AMERICA_SITE_ASSET_SUMMARY,
   COORDINATES_ASSET_PROPERTY,
   PRODUCTION_RATE_ASSET_PROPERTY,
-} from '~/msw/handlers/iot-sitewise/constants';
+} from '~/msw/iot-sitewise/constants';
 import { DEFAULT_REGION } from '~/msw/constants';
-import { paginatedListAssetsHandler } from '~/msw/handlers/iot-sitewise/listAssets/paginatedListAssetsHandler';
+import { paginatedListAssetsHandler } from '~/msw/iot-sitewise/listAssets/paginatedListAssetsHandler';
 
 function TestQueryEditor() {
   return (
