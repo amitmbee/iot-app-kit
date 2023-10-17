@@ -21,6 +21,7 @@ import WidgetTile from '~/components/widgets/tile/tile';
 import NoChartData from '../components/no-chart-data';
 import { default as lineSvgDark } from './line-dark.svg';
 import { IoTSiteWiseDataStreamQuery } from '~/types';
+import { assetModelQueryToSiteWiseAssetQuery } from '../utils/assetModelQueryToAssetQuery';
 
 const mapConnectionStyleToVisualizationType = (
   connectionStyle: LineStyles['connectionStyle']
@@ -121,6 +122,7 @@ const removeHiddenDataStreams = (widget: LineScatterChartWidget): LineScatterCha
     queryConfig: {
       ...widget.properties.queryConfig,
       query: {
+        ...widget.properties.queryConfig.query,
         assets:
           widget.properties.queryConfig?.query?.assets?.map((asset) => ({
             ...asset,
@@ -169,7 +171,9 @@ const LineScatterChartWidgetComponent: React.FC<LineScatterChartWidget> = (widge
 
   const queries = useQueries(filteredQuery);
 
-  const styleSettings = useAdaptedStyleSettings({ line, symbol }, filteredQuery);
+  // adapt assetModels to asset query
+  const mappedQuery = assetModelQueryToSiteWiseAssetQuery(filteredQuery);
+  const styleSettings = useAdaptedStyleSettings({ line, symbol }, mappedQuery);
 
   const aggregation = getAggregation(widget);
 

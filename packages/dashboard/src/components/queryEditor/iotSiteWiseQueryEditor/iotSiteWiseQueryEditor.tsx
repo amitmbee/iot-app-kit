@@ -1,14 +1,17 @@
 import Tabs from '@cloudscape-design/components/tabs';
 import React from 'react';
 
+import { IoTSiteWiseClient } from '@aws-sdk/client-iotsitewise';
+import { IoTTwinMakerClient } from '@aws-sdk/client-iottwinmaker';
+import { useGetConfigValue } from '@iot-app-kit/react-components';
+
 import { ModeledDataStreamQueryEditor } from './modeledDataStreamQueryEditor';
 import { UnmodeledDataStreamQueryEditor } from './unmodeledDataStreamExplorer';
 import { querySelectionConverter } from './querySelectionConverter';
 import type { ModeledDataStream } from './modeledDataStreamQueryEditor/modeledDataStreamExplorer/types';
 import type { UnmodeledDataStream } from './unmodeledDataStreamExplorer/types';
 import { useQuery } from '../useQuery';
-import { IoTSiteWiseClient } from '@aws-sdk/client-iotsitewise';
-import { IoTTwinMakerClient } from '@aws-sdk/client-iottwinmaker';
+import { AssetModelDataStreamExplorer } from './assetModelDataStreamExplorer/assetModelDataStreamExplorer';
 
 export interface IoTSiteWiseQueryEditorProps {
   onUpdateQuery: ReturnType<typeof useQuery>[1];
@@ -21,6 +24,8 @@ export function IoTSiteWiseQueryEditor({
   iotSiteWiseClient,
   iotTwinMakerClient,
 }: IoTSiteWiseQueryEditorProps) {
+  const modelBasedQueryEnabled = useGetConfigValue('useModelBasedQuery');
+
   function handleClickAddModeledDataStreams(newModeledDataStreams: ModeledDataStream[]) {
     onUpdateQuery((currentQuery) => {
       const currentModeledDataStreams: Pick<ModeledDataStream, 'assetId' | 'propertyId'>[] = currentQuery
@@ -85,31 +90,33 @@ export function IoTSiteWiseQueryEditor({
     });
   }
 
-  return (
-    <Tabs
-      tabs={[
-        {
-          label: 'Modeled',
-          id: 'explore-modeled-tab',
-          content: (
-            <ModeledDataStreamQueryEditor
-              onClickAdd={handleClickAddModeledDataStreams}
-              iotSiteWiseClient={iotSiteWiseClient}
-              iotTwinMakerClient={iotTwinMakerClient}
-            />
-          ),
-        },
-        {
-          label: 'Unmodeled',
-          id: 'explore-unmodeled-tab',
-          content: (
-            <UnmodeledDataStreamQueryEditor
-              onClickAdd={handleClickAddUnmodeledDataStreams}
-              client={iotSiteWiseClient}
-            />
-          ),
-        },
-      ]}
-    />
-  );
+  const modeledTab = {
+    label: 'Modeled',
+    id: 'explore-modeled-tab',
+    content: (
+      <ModeledDataStreamQueryEditor
+        onClickAdd={handleClickAddModeledDataStreams}
+        iotSiteWiseClient={iotSiteWiseClient}
+        iotTwinMakerClient={iotTwinMakerClient}
+      />
+    ),
+  };
+  const unmodeledTab = {
+    label: 'Unmodeled',
+    id: 'explore-unmodeled-tab',
+    content: (
+      <UnmodeledDataStreamQueryEditor onClickAdd={handleClickAddUnmodeledDataStreams} client={iotSiteWiseClient} />
+    ),
+  };
+
+  const assetModeledTab = {
+    label: 'Asset Model',
+    id: 'explore-asset-model-tab',
+    content: <AssetModelDataStreamExplorer client={iotSiteWiseClient} />,
+  };
+
+  const defaultTabs = [modeledTab, unmodeledTab];
+  const tabs = modelBasedQueryEnabled ? [...defaultTabs, assetModeledTab] : defaultTabs;
+
+  return <Tabs tabs={tabs} />;
 }

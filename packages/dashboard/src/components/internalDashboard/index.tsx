@@ -52,6 +52,7 @@ import type { UserSelectionProps } from '../userSelection';
 import type { DashboardState } from '~/store/state';
 import { useSelectedWidgets } from '~/hooks/useSelectedWidgets';
 import ConfirmDeleteModal from '../confirmDeleteModal';
+import { AssetModelSelection } from '../assetModelSelection/assetModelSelection';
 
 import '@iot-app-kit/components/styles.css';
 import './index.css';
@@ -262,6 +263,11 @@ const InternalDashboard: React.FC<InternalDashboardProperties> = ({ onSave, edit
   const ReadOnlyComponent = (
     <div className='dashboard'>
       <div style={dashboardToolbarBottomBorder} className='dashboard-toolbar-read-only'>
+        <div style={{ height: '100%', float: 'left', display: 'flex', alignItems: 'end' }}>
+          <Box padding={{ bottom: 'l', left: 's' }}>
+            <AssetModelSelection client={iotSiteWiseClient} />
+          </Box>
+        </div>
         <Box float='right' padding='s'>
           <SpaceBetween size='s' direction='horizontal'>
             <TimeSelection />

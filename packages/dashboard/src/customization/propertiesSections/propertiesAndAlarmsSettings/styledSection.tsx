@@ -171,6 +171,29 @@ export const StyledPropertiesAlarmsSection: FC<StyledPropertiesAlarmsSectionProp
         );
       }) ?? [];
 
+    // const assetModeled =
+    //   styledAssetQuery?.assetModels?.flatMap(({ assetModelId, properties }) =>
+    //     properties.map((property) =>
+    //       describedAssetsMap[assetId] ? (
+    //         <StyledPropertyComponent
+    //           key={`${assetId}-${property.propertyId}`}
+    //           assetSummary={describedAssetsMap[assetId]}
+    //           property={property}
+    //           updateStyle={(newStyles: object) => onUpdatePropertyStyles(assetId, property.propertyId, newStyles)}
+    //           onDeleteAssetQuery={onDeleteAssetQuery({
+    //             assetId,
+    //             propertyId: property.propertyId,
+    //             siteWiseAssetQuery: styledAssetQuery,
+    //             updateSiteWiseAssetQuery,
+    //           })}
+    //           colorable={colorable}
+    //           onHideAssetQuery={() => onHideAssetQuery(assetId, property.propertyId)}
+    //           isPropertyVisible={property.visible ?? true}
+    //         />
+    //       ) : null
+    //     )
+    //   ) ?? [];
+
     const components = [...modeled, ...unmodeled];
 
     return components.length ? components : <NoComponents />;
