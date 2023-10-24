@@ -133,12 +133,14 @@ const updateTag = async (
     const chosenColor = shouldSyncTagStyle
       ? '#' + new Color(item.color.r, item.color.g, item.color.b).getHexString('srgb')
       : tag.chosenColor;
+    const customIcon = shouldSyncTagStyle ? { prefix: 'fas', iconName: item.fontId } : tag.customIcon;
 
     components[tagIndex] = {
       ...components[tagIndex],
       offset: [item.stemVector.x, item.stemVector.y, item.stemVector.z],
       icon,
       chosenColor,
+      customIcon,
     } as IAnchorComponentInternal;
   }
   const dataOverlayIndex = node.components.findIndex((elem) => elem.type === KnownComponentType.DataOverlay);
