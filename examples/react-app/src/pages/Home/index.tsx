@@ -6,6 +6,7 @@ import SceneViewer from '../../components/SceneViewer';
 import VideoPlayer from '../../components/VideoPlayer';
 import DashboardManager from '../../components/DashboardManager';
 import KnowledgeGraph from '../../components/KnowledgeGraph';
+import LineChart from '../../components/LineChart';
 
 import { Container, Header, SpaceBetween } from '@cloudscape-design/components';
 
@@ -164,6 +165,9 @@ const ScenePage = () => {
             <Container>
               <TimeSelection />
             </Container>
+            <Container>
+              <LineChart entityId={selectedEntityId} />
+            </Container>
             <Container header={<Header>Scene</Header>}>
               <SceneViewer onSelectionChanged={onSelectionChanged} onWidgetClick={onWidgetClick} />
             </Container>
@@ -176,9 +180,9 @@ const ScenePage = () => {
                 onGraphResultChange={onGraphResultChange}
               />
             </Container>
-            <Container header={<Header>Video Player</Header>}>
+            {/* <Container header={<Header>Video Player</Header>}>
               <VideoPlayer />
-            </Container>
+            </Container> */}
           </SpaceBetween>
         </DashboardManager>
       </TimeSync>
